@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Directories for this project
+.vscode
+Tesseract-OCR/
+
 # C extensions
 *.so
 
