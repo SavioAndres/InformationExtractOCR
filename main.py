@@ -1,11 +1,9 @@
+from src.manage import Manage
 import argparse
-from src.text_extraction import TextExtraction
-from src.organize_directory import OrganizeDirectory
 
 class Arguments:
 
-    text_extraction = TextExtraction()
-    organize_directory = OrganizeDirectory()
+    manage = Manage()
 
     def __init__(self):
         super().__init__()
@@ -26,11 +24,11 @@ class Arguments:
     def check_arguments(self):
         args = self.parser.parse_args()
         if (args.l or args.lang):
-            self.text_extraction.set_lang(args.l or args.lang)
+            self.manage.set_lang(args.l or args.lang)
         if (args.i or args.image):
-            self.text_extraction.set_image_to_text(args.i or args.image)
+            self.manage.set_image_to_text(args.i or args.image)
         if (args.d or args.directory):
-            self.organize_directory.set_directory_image(args.d or args.directory)
+            self.manage.set_directory_image(args.d or args.directory)
         if (args.o or args.output):
             print()
 
