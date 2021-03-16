@@ -1,5 +1,6 @@
 from src.text_extraction import TextExtraction
 from src.organize_directory import OrganizeDirectory
+from src.process_image import ProcessImage
 from termcolor import colored
 from operator import length_hint
 import os
@@ -12,6 +13,7 @@ class Manage:
         super().__init__()
         self.text_extraction = TextExtraction()
         self.organize_directory = OrganizeDirectory()
+        self.process_image = ProcessImage()
 
     def set_lang(self, arg):
         self.text_extraction.set_lang(arg)
@@ -28,6 +30,7 @@ class Manage:
     def __generate_text(self, image_path):
         print('>>>>>>', image_path)
         print(colored('Extraíndo texto...', 'yellow'))
+        self.process_image.remove_noise_and_smooth(image_path)
         text = self.text_extraction.image_to_text(image_path)
         self.organize_directory.write_file(text, image_path)
         print(colored('Finalizado com sucesso', 'green'))
