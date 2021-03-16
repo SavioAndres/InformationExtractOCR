@@ -21,5 +21,14 @@ class OrganizeDirectory:
         #path_image.extend(glob('{0}/*.jpeg'.format(path)))
         #path_image.extend(glob('{0}/*.png'.format(path)))
         lista_arqs = pathlib.Path(path).glob('**/*.jpg')
-        print(lista_arqs)
+        #print(lista_arqs)
         return lista_arqs
+
+    def join_files(self, path):
+        paths = glob('{0}/*.txt'.format(path))
+        arq = open(path + '/resultado.txt', 'w')
+        text = ''
+        for p in paths:
+            text += open(p, 'r').read()
+        arq.write(text)
+        arq.close()
