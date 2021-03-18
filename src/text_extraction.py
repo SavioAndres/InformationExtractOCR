@@ -16,6 +16,9 @@ class TextExtraction:
     def image_to_text(self, path):
         image = Image.open(path)
         return pytesseract.image_to_string(image, lang=self.language)
+    
+    def image_cv2_to_text(self, image):
+        return pytesseract.image_to_string(image, lang=self.language)
 
     #@staticmethod
     

@@ -21,17 +21,19 @@ class Manage:
     def set_directory_image(self, directory):
         paths = self.organize_directory.get_path_images(directory)
         for i, image_path in enumerate(paths):
-            print('###', i + 1)
+            print(colored('######\t{}'.format(i + 1), 'blue'))
             self.__generate_text(image_path)
 
     def set_image_to_text(self, path):
         self.__generate_text(path)
 
     def __generate_text(self, image_path):
-        print('>>>>>>', image_path)
+        print(colored('>>>>>>\t{}'.format(image_path), 'blue'))
+        print(colored('Processando imagem...', 'yellow'))
+        image = self.process_image.process(image_path)
         print(colored('Extraíndo texto...', 'yellow'))
-        self.process_image.remove_noise_and_smooth(image_path)
-        text = self.text_extraction.image_to_text(image_path)
+        text = self.text_extraction.image_cv2_to_text(image)
+        #text = self.text_extraction.image_to_text(image_path)
         self.organize_directory.write_file(text, image_path)
         print(colored('Finalizado com sucesso', 'green'))
     
