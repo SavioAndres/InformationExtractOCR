@@ -11,6 +11,7 @@ class ProcessImage:
         if not os.path.exists(direc):
             os.mkdir(direc)
         img = cv2.imread(path_image)
+        print(path_image)
         img = cv2.medianBlur(img, 3)
         _, th1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
         root, _ = os.path.splitext(os.path.basename(path_image))

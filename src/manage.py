@@ -20,11 +20,14 @@ class Manage:
     
     def set_directory_image(self, directory):
         paths = self.organize_directory.get_path_images(directory)
+        print(colored('Acentuação dos diretórios e arquivos retiradas', 'green'))
         for i, image_path in enumerate(paths):
             print(colored('######\t{}'.format(i + 1), 'blue'))
             self.__generate_text(image_path)
 
     def set_image_to_text(self, path):
+        path = self.organize_directory.remove_accents_files(path)
+        print(colored('Acentuação dos arquivos retiradas', 'green'))
         self.__generate_text(path)
 
     def __generate_text(self, image_path):
