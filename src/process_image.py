@@ -7,15 +7,17 @@ class ProcessImage:
     def process(self, path_image):
         path_image = str(path_image)
         base_path = os.path.dirname(path_image)
-        direc = '{}/processadas'.format(base_path)
-        if not os.path.exists(direc):
-            os.mkdir(direc)
         img = cv2.imread(path_image)
         print(path_image)
+
         img = cv2.medianBlur(img, 3)
         _, th1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
         root, _ = os.path.splitext(os.path.basename(path_image))
-        cv2.imwrite('{0}/processadas/{1}-new.jpg'.format(base_path, root), th1)
+
+        direc = '{}/../processadas'.format(base_path)
+        if not os.path.exists(direc):
+            os.mkdir(direc)
+        cv2.imwrite('{0}/../processadas/{1}-new.jpg'.format(base_path, root), th1)
         return th1
 
     def image_smoothening(self, img):

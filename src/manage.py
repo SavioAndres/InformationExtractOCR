@@ -26,7 +26,7 @@ class Manage:
             self.__generate_text(image_path)
 
     def set_image_to_text(self, path):
-        path = self.organize_directory.remove_accents_files(path)
+        path = self.organize_directory.remove_accents_directories(path)
         print(colored('Acentuação dos arquivos retiradas', 'green'))
         self.__generate_text(path)
 

@@ -28,14 +28,14 @@ class OrganizeDirectory:
         return lista_arqs
     
     def remove_accents_directories_files(self, path):
-        unaccented_path = self.remove_accents_files(path)
+        unaccented_path = self.remove_accents_directories(path)
         lista_arqs = os.listdir(unaccented_path)
         for arq in lista_arqs:
             rename_arq = normalize('NFKD', arq).encode('ASCII', 'ignore').decode('ASCII')
             os.rename(unaccented_path + '/' + arq, unaccented_path + '/' + rename_arq)
         return unaccented_path
     
-    def remove_accents_files(self, path):
+    def remove_accents_directories(self, path):
         path_dirs, unaccented_path_dirs = self.path_split_unaccented(path)
         
         concatenated_path = ''

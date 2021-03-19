@@ -15,10 +15,11 @@ class Arguments:
 
     def add_argument(self, title):
         self.parser = argparse.ArgumentParser(prog=title, conflict_handler='resolve', description='sum the integers at the command line')
+        self.parser.add_argument('-lang', help='Inserir imagem')
         self.parser.add_argument('--output', '-o', help='foo help')
         self.parser.add_argument('--image', '-i', help='foo help')
-        self.parser.add_argument('-lang', help='Inserir imagem')
         self.parser.add_argument('--directory', '-d', help='Inserir imagem')
+        self.parser.add_argument('--processimage', '-pi', help='foo help')
         self.parser.add_argument('--join', help='Inserir imagem')
         self.parser.add_argument('--version', '-v', action='version', version='%(prog)s Version 0.2', help='Inserir imagem')
         self.parser.add_argument('code', nargs='?', help='Inserir imagem')
@@ -32,6 +33,8 @@ class Arguments:
             self.manage.set_image_to_text(args.image)
         if (args.directory):
             self.manage.set_directory_image(args.directory)
+        if (args.processimage):
+            print()
         if (args.output):
             print()
         if (args.join):
