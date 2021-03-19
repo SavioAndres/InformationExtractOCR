@@ -1,6 +1,7 @@
 from src.manage import Manage
 import argparse
 import webbrowser
+import platform
 
 class Arguments:
 
@@ -8,11 +9,12 @@ class Arguments:
 
     def __init__(self):
         super().__init__()
-        self.add_argument()
+        title = 'Information Extract OCR (for {})'.format(platform.system())
+        self.add_argument(title)
         self.check_arguments()
 
-    def add_argument(self):
-        self.parser = argparse.ArgumentParser(prog='Information Extract OCR', conflict_handler='resolve', description='sum the integers at the command line')
+    def add_argument(self, title):
+        self.parser = argparse.ArgumentParser(prog=title, conflict_handler='resolve', description='sum the integers at the command line')
         self.parser.add_argument('--output', '-o', help='foo help')
         self.parser.add_argument('--image', '-i', help='foo help')
         self.parser.add_argument('-lang', help='Inserir imagem')

@@ -1,5 +1,6 @@
 import pytesseract
 from PIL import Image
+import platform
 
 class TextExtraction:
 
@@ -7,7 +8,8 @@ class TextExtraction:
 
     def __init__(self):
         super().__init__()
-        pytesseract.pytesseract.tesseract_cmd = self.TESSPATH
+        if platform.system() == 'Windows':
+            pytesseract.pytesseract.tesseract_cmd = self.TESSPATH
         self.set_lang()
         
     def set_lang(self, lang='por'):
