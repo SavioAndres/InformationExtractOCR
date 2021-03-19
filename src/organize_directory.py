@@ -2,11 +2,10 @@ from glob import glob
 import os
 import pathlib
 from unicodedata import normalize
+from PIL import Image
+from pathlib import Path
 
 class OrganizeDirectory:
-
-    def __init__(self):
-        super().__init__()
     
     def get_path_files(self, path):
         return os.listdir(path)
@@ -16,13 +15,20 @@ class OrganizeDirectory:
         file_text.write(text)
         file_text.close()
 
-    def get_path_images(self, path):
-        #path_image = glob('{0}/.'.format(path))
-        #path_image.extend(glob('{0}/*.jpg'.format(path)))
-        #path_image.extend(glob('{0}/*.jpeg'.format(path)))
-        #path_image.extend(glob('{0}/*.png'.format(path)))
+    def convert_to_jpg(self, path):
+        png = list(pathlib.Path(path).glob('**/*.png'))
+        png_jpeg = png + list(pathlib.Path(path).glob('**/*.jpeg'))
         
+        for img in png_jpeg:
+            path_img = Path(str(img))
+            img = Image.open(path_img)
+            img = img.convert('RGB')
+            img.save(path_img.with_suffix('.jpg'))
+            os.remove(path_img)
+
+    def get_path_images(self, path):
         unaccented_path = self.remove_accents_directories_files(path)
+        self.convert_to_jpg(unaccented_path)
         lista_arqs = pathlib.Path(unaccented_path).glob('**/*.jpg')
         #print(lista_arqs)
         return lista_arqs

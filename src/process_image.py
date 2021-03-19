@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import os
-from datetime import datetime
 
 class ProcessImage:
 
@@ -9,20 +8,18 @@ class ProcessImage:
         path_image = str(path_image)
         base_path = os.path.dirname(path_image)
         img = cv2.imread(path_image)
-        print(path_image)
 
         img = cv2.medianBlur(img, 3)
         _, th1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
         root, _ = os.path.splitext(os.path.basename(path_image))
 
-        paths = os.path.normpath(root)
+        paths = os.path.normpath(path_image)
         paths_dirs = paths.split(os.sep)
-        print('ppppppppppp',paths_dirs[-1])
-        direc = '{}/../{1} (processadas)'.format(base_path, paths_dirs[-1])
+        direc = '{0}/../{1} (processadas)'.format(base_path, paths_dirs[-2])
         if not os.path.exists(direc):
             os.mkdir(direc)
-        now = datetime.timestamp(datetime.now())
-        cv2.imwrite('{0}/../{1} (processadas)/{2} ({3}).jpg'.format(base_path, paths_dirs[-1], root, now), th1)
+            
+        cv2.imwrite('{0}/{1}.jpg'.format(direc, root), th1)
         
         return th1
 

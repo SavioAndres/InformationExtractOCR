@@ -10,7 +10,6 @@ os.system("")
 class Manage:
 
     def __init__(self):
-        super().__init__()
         self.text_extraction = TextExtraction()
         self.organize_directory = OrganizeDirectory()
         self.process_image = ProcessImage()

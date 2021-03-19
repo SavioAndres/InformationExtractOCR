@@ -8,7 +8,6 @@ class Arguments:
     manage = Manage()
 
     def __init__(self):
-        super().__init__()
         title = 'Information Extract OCR (for {})'.format(platform.system())
         self.add_argument(title)
         self.check_arguments()

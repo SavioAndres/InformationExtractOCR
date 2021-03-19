@@ -7,7 +7,6 @@ class TextExtraction:
     TESSPATH = 'Tesseract-OCR/tesseract.exe'
 
     def __init__(self):
-        super().__init__()
         if platform.system() == 'Windows':
             pytesseract.pytesseract.tesseract_cmd = self.TESSPATH
         self.set_lang()
