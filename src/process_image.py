@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import os
+from datetime import datetime
 
 class ProcessImage:
 
@@ -14,10 +15,15 @@ class ProcessImage:
         _, th1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
         root, _ = os.path.splitext(os.path.basename(path_image))
 
-        direc = '{}/../processadas'.format(base_path)
+        paths = os.path.normpath(root)
+        paths_dirs = paths.split(os.sep)
+        print('ppppppppppp',paths_dirs[-1])
+        direc = '{}/../{1} (processadas)'.format(base_path, paths_dirs[-1])
         if not os.path.exists(direc):
             os.mkdir(direc)
-        cv2.imwrite('{0}/../processadas/{1}-new.jpg'.format(base_path, root), th1)
+        now = datetime.timestamp(datetime.now())
+        cv2.imwrite('{0}/../{1} (processadas)/{2} ({3}).jpg'.format(base_path, paths_dirs[-1], root, now), th1)
+        
         return th1
 
     def image_smoothening(self, img):
