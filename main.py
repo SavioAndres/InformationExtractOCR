@@ -20,7 +20,7 @@ class Arguments:
         self.parser.add_argument('-lang', help='Inserir imagem')
         self.parser.add_argument('--directory', '-d', help='Inserir imagem')
         self.parser.add_argument('--join', help='Inserir imagem')
-        self.parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.2', help='Inserir imagem')
+        self.parser.add_argument('--version', '-v', action='version', version='%(prog)s Version 0.2', help='Inserir imagem')
         self.parser.add_argument('code', nargs='?', help='Inserir imagem')
 
 
