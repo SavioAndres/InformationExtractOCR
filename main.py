@@ -2,6 +2,7 @@ from src.manage import Manage
 import argparse
 import webbrowser
 import platform
+from pathlib import Path
 
 class Arguments:
 
@@ -29,25 +30,19 @@ class Arguments:
         if (args.lang):
             self.manage.set_lang(args.lang)
         if (args.image):
-            self.manage.set_image_to_text(args.image)
+            self.manage.set_image(Path(args.image))
         if (args.directory):
-            self.manage.set_directory_image(args.directory)
+            self.manage.set_directory_images(Path(args.directory))
         if (args.processimage):
             print()
         if (args.output):
             print()
         if (args.join):
-            self.manage.join_all_txt_files(args.join)
+            self.manage.join_all_txt_files(Path(args.join))
         if (args.code):
             print('O código fonte está em: https://github.com/SavioAndres/InformationExtractOCR')
             webbrowser.open('https://github.com/SavioAndres/InformationExtractOCR')
 
-    
-    def get_args(self):
-        return self.parser.parse_args()
-
 
 if __name__ == '__main__':
     Arguments()
-
-#Criar Thread

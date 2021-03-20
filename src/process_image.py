@@ -18,7 +18,7 @@ class ProcessImage:
         direc = '{0}/../{1} (processadas)'.format(base_path, paths_dirs[-2])
         if not os.path.exists(direc):
             os.mkdir(direc)
-            
+
         cv2.imwrite('{0}/{1}.jpg'.format(direc, root), th1)
         
         return th1
