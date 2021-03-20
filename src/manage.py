@@ -19,7 +19,7 @@ class Manage:
     
     # --directory
     def set_directory_images(self, directory):
-        list_paths_images, accentuation_removed, was_converted = self.organize_directory.get_path_images(directory)
+        list_paths_images, accentuation_removed, was_converted = self.organize_directory.remove_accents_directories_files(directory)
 
         if accentuation_removed: print(colored('Acentuação do diretório e/ou imagem/ns retirada(s)', 'blue'))
         if was_converted: print(colored('Imagem/ns convertida/s para jpg', 'blue'))

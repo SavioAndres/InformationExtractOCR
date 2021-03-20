@@ -14,16 +14,14 @@ class Arguments:
         self.check_arguments()
 
     def add_argument(self, title):
-        self.parser = argparse.ArgumentParser(prog=title, conflict_handler='resolve', description='sum the integers at the command line')
-        self.parser.add_argument('-lang', help='Inserir imagem')
-        self.parser.add_argument('--output', '-o', help='foo help')
-        self.parser.add_argument('--image', '-i', help='foo help')
-        self.parser.add_argument('--directory', '-d', help='Inserir imagem')
-        self.parser.add_argument('--processimage', '-pi', help='foo help')
-        self.parser.add_argument('--join', help='Inserir imagem')
-        self.parser.add_argument('--version', '-v', action='version', version='%(prog)s Version 0.2', help='Inserir imagem')
-        self.parser.add_argument('code', nargs='?', help='Inserir imagem')
-
+        self.parser = argparse.ArgumentParser(prog=title, conflict_handler='resolve')
+        self.parser.add_argument('-lang', help='Inserir lingua do texto da imagem: [por, eng]')
+        self.parser.add_argument('--image', '-i', help='Caminho da imagem de entrada')
+        self.parser.add_argument('--directory', '-d', help='Caminho do diretório de entrada')
+        self.parser.add_argument('--join', help='Criar um novo arquivo de texto com todos os textos \
+                                    extraídos dos arquivos de um determinado diretório')
+        self.parser.add_argument('--version', '-v', action='version', version='%(prog)s Version 0.2')
+        self.parser.add_argument('code', nargs='?', help='Código fonte')
 
     def check_arguments(self):
         args = self.parser.parse_args()
@@ -33,16 +31,11 @@ class Arguments:
             self.manage.set_image(Path(args.image))
         if (args.directory):
             self.manage.set_directory_images(Path(args.directory))
-        if (args.processimage):
-            print()
-        if (args.output):
-            print()
         if (args.join):
             self.manage.join_all_txt_files(Path(args.join))
         if (args.code):
             print('O código fonte está em: https://github.com/SavioAndres/InformationExtractOCR')
             webbrowser.open('https://github.com/SavioAndres/InformationExtractOCR')
-
 
 if __name__ == '__main__':
     Arguments()

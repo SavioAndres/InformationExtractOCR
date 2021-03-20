@@ -1,4 +1,4 @@
-from glob import glob
+import glob
 import os
 import pathlib
 from unicodedata import normalize
@@ -12,44 +12,25 @@ class OrganizeDirectory:
         file_text = open('{}.txt'.format(name), 'w')
         file_text.write(text)
         file_text.close()
-
-    # Converte todas imagens png e jpeg em jpg no diretório escolhido
-    def convert_to_jpg(self, path):
-        png = list(pathlib.Path(path).glob('**/*.png'))
-        png_jpeg = png + list(pathlib.Path(path).glob('**/*.jpeg'))
-        
-        for img in png_jpeg:
-            path_img = Path(str(img))
-            img = Image.open(path_img)
-            img = img.convert('RGB')
-            img.save(path_img.with_suffix('.jpg'))
-            os.remove(path_img)
-
-        return len(png_jpeg) != 0
-
-    def get_path_images(self, path):
-        unaccented_path, accentuation_removed = self.remove_accents_directories_files(path)
-        was_converted = self.convert_to_jpg(unaccented_path)
-        list_paths_images = pathlib.Path(unaccented_path).glob('**/*.jpg')
-        return list_paths_images, accentuation_removed, was_converted
     
     # Passando o caminho de um diretório
     # Remove os acentos dos dos diretórios e subdiretórios até as imagens
     def remove_accents_directories_files(self, path):
         unaccented_path, accentuation_removed = self.remove_accents_directories(path)
-        lista_arqs = os.listdir(unaccented_path)
-        unaccented_path = str(unaccented_path)
-
+        was_converted = self.__convert_to_jpg(unaccented_path)
+        list_paths_images = glob.glob('{}/*.jpg'.format(unaccented_path))
+        
         accented_file = False
-        for arq in lista_arqs:
+        for arq in list_paths_images:
             rename_arq = normalize('NFKD', arq).encode('ASCII', 'ignore').decode('ASCII')
             accented_file = accented_file or (arq != rename_arq)
-            os.rename(unaccented_path + '/' + arq, unaccented_path + '/' + rename_arq)
-
-        return Path(unaccented_path), accentuation_removed or accented_file
+            if arq != rename_arq: os.rename(arq, rename_arq)
+        
+        if accented_file: list_paths_images = glob.glob('{}/*.jpg'.format(unaccented_path))
+        return list_paths_images, (accentuation_removed or accented_file), was_converted
     
     # Passando o caminho de uma imagem
-    # Remove os acentos dos dos diretórios e subdiretórios
+    # Remove os acentos dos diretórios e subdiretórios
     def remove_accents_directories(self, path):
         list_path_dirs, list_unaccented_path_dirs = self.__path_split_unaccented(path)
         
@@ -86,3 +67,17 @@ class OrganizeDirectory:
         list_unaccented_path_dirs = unaccented_path.split(os.sep)
 
         return list_path_dirs, list_unaccented_path_dirs
+    
+    # Converte todas imagens png e jpeg em jpg no diretório escolhido
+    def __convert_to_jpg(self, path):
+        png = list(pathlib.Path(path).glob('**/*.png'))
+        png_jpeg = png + list(pathlib.Path(path).glob('**/*.jpeg'))
+        
+        for img in png_jpeg:
+            path_img = Path(str(img))
+            img = Image.open(path_img)
+            img = img.convert('RGB')
+            img.save(path_img.with_suffix('.jpg'))
+            os.remove(path_img)
+
+        return len(png_jpeg) != 0
