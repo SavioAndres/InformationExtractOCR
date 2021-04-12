@@ -17,7 +17,7 @@ class Manage:
     def set_lang(self, arg):
         self.text_extraction.set_lang(arg)
     
-    # --directory
+    # --dir
     def set_directory_images(self, directory):
         list_paths_images, accentuation_removed, was_converted = self.organize_directory.remove_accents_directories_files(directory)
 

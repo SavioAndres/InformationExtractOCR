@@ -4,14 +4,21 @@ import pathlib
 from unicodedata import normalize
 from PIL import Image
 from pathlib import Path
+import re
 
 class OrganizeDirectory:
     
     # Escreve o arquivo TXT com o texto extraído
     def write_file(self, text, name):
         file_text = open('{}.txt'.format(name), 'w')
+        text = self.__cleaning_text(text)
         file_text.write(text)
         file_text.close()
+
+    # Limpando texto
+    def __cleaning_text(self, text):
+        text = text.replace(r'[\\n]+', r'[\\n]')
+        return text
     
     # Passando o caminho de um diretório
     # Remove os acentos dos dos diretórios e subdiretórios até as imagens

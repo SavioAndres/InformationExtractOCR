@@ -15,12 +15,12 @@ class Arguments:
 
     def add_argument(self, title):
         self.parser = argparse.ArgumentParser(prog=title, conflict_handler='resolve')
-        self.parser.add_argument('-lang', help='Inserir lingua do texto da imagem: [por, eng]')
-        self.parser.add_argument('--image', '-i', help='Caminho da imagem de entrada')
-        self.parser.add_argument('--directory', '-d', help='Caminho do diretório de entrada')
-        self.parser.add_argument('--join', help='Criar um novo arquivo de texto com todos os textos \
+        self.parser.add_argument('-l', '--lang', help='Inserir lingua do texto da imagem: [por, eng]')
+        self.parser.add_argument('-i', '--image', help='Caminho da imagem de entrada')
+        self.parser.add_argument('-d', '--dir', help='Caminho do diretório de entrada')
+        self.parser.add_argument('-j', '--join', help='Criar um novo arquivo de texto com todos os textos \
                                     extraídos dos arquivos de um determinado diretório')
-        self.parser.add_argument('--version', '-v', action='version', version='%(prog)s Version 0.2')
+        self.parser.add_argument('-v', '--version', help='Versão do software', action='version', version='%(prog)s Version 0.2')
         self.parser.add_argument('code', nargs='?', help='Código fonte')
 
     def check_arguments(self):
@@ -29,8 +29,8 @@ class Arguments:
             self.manage.set_lang(args.lang)
         if (args.image):
             self.manage.set_image(Path(args.image))
-        if (args.directory):
-            self.manage.set_directory_images(Path(args.directory))
+        if (args.dir):
+            self.manage.set_directory_images(Path(args.dir))
         if (args.join):
             self.manage.join_all_txt_files(Path(args.join))
         if (args.code):
