@@ -3,6 +3,7 @@ from src.organize_directory import OrganizeDirectory
 from src.process_image import ProcessImage
 from termcolor import colored
 import os
+from pathlib import Path
 
 os.system("")
 
@@ -29,10 +30,19 @@ class Manage:
             self.__generate_text(image_path)
 
     # --image
-    def set_image(self, path):
-        path, accentuation_removed = self.organize_directory.remove_accents_directories(path)
-        if accentuation_removed: print(colored('Acentuação do diretório/imagem retirada', 'blue'))
-        self.__generate_text(path)
+    def set_image(self, paths):
+        for path in paths:
+            path, accentuation_removed = self.organize_directory.remove_accents_directories(Path(path))
+            if accentuation_removed: print(colored('Acentuação do diretório/imagem retirada', 'blue'))
+            self.__generate_text(path)
+
+    # --out
+    def set_directory_out_text(self, path):
+        return None
+
+    # --outimage
+    def set_directory_out_image(self, path):
+        return None
     
     # --join
     def join_all_txt_files(self, path):
