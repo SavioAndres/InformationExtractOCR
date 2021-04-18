@@ -1,4 +1,4 @@
-from src.manage import Manage
+from src2.manage import Manage
 import argparse
 import platform
 from pathlib import Path
@@ -15,6 +15,8 @@ class Arguments:
     def add_argument(self, title):
         self.parser = argparse.ArgumentParser(prog=title, conflict_handler='resolve')
         self.parser.add_argument('-l', '--lang', choices=['por', 'eng'], help='Inserir lingua do texto da imagem')
+        self.parser.add_argument('-si', '--saveimage', help='Salvar imagem processada [true ou false]')
+        self.parser.add_argument('-init', '--init', type=int, help='Número de início para varrer as imagens')
         self.parser.add_argument('-i', '--image', action='append', help='Caminho da imagem de entrada')
         self.parser.add_argument('-d', '--dir', help='Caminho do diretório de entrada das imagens')
         self.parser.add_argument('-o', '--out', help='Caminho do diretório de saída dos textos extraídos')
@@ -22,20 +24,24 @@ class Arguments:
         self.parser.add_argument('-j', '--join', help='Criar um novo arquivo de texto com todos os textos \
                                     extraídos dos arquivos de um determinado diretório')
         self.parser.add_argument('-v', '--version', help='Versão do software', action='version', 
-                                    version='%(prog)s Version 0.2 [https://github.com/SavioAndres/InformationExtractOCR]')
+                                    version='%(prog)s Version 0.3 [https://github.com/SavioAndres/InformationExtractOCR]')
 
     def check_arguments(self):
         args = self.parser.parse_args()
         if (args.lang):
             self.manage.set_lang(args.lang)
+        if (args.saveimage):
+            self.manage.set_is_save_image_process(args.saveimage)
+        if (args.init):
+            self.manage.set_value_init(args.init)
+        if (args.outimage):
+            self.manage.set_directory_out_image(Path(args.outimage))
+        if (args.out):
+            self.manage.set_directory_out_text(Path(args.out))
         if (args.image):
             self.manage.set_image(args.image)
         if (args.dir):
             self.manage.set_directory_images(Path(args.dir))
-        if (args.out):
-            self.manage.set_directory_out_text(Path(args.out))
-        if (args.outimage):
-            self.manage.set_directory_out_image(Path(args.outimage))
         if (args.join):
             self.manage.join_all_txt_files(Path(args.join))
 
