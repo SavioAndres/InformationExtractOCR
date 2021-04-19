@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 import os
-from skimage.transform import rotate
-from deskew import determine_skew
+#from skimage.transform import rotate
+#from deskew import determine_skew
 
 class ProcessImage:
 
@@ -33,8 +33,8 @@ class ProcessImage:
         return th1.astype(np.uint8)
 
     def __rotate(self, img):
-        angle = determine_skew(img)
-        print(angle)
+        #angle = determine_skew(img)
+        #print(angle)
 
         img_inv = cv2.bitwise_not(img)
         coords = np.column_stack(np.where(img_inv > 0))

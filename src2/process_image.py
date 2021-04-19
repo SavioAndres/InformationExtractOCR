@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 import os
-from skimage.transform import rotate
-from deskew import determine_skew
+#from skimage.transform import rotate
+#from deskew import determine_skew
 
 class ProcessImage:
 

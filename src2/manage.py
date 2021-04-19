@@ -69,8 +69,10 @@ class Manage:
 
         list_paths_images = list()
         for path, _, name_file in os.walk(os.path.abspath(path)):
-            for name in name_file:
-                list_paths_images.append(path + '/' + name)
+            if os.path.basename(path) != 'arquivo':
+                for name in name_file:
+                    if name.endswith('.jpg'):
+                        list_paths_images.append(path + '/' + name)
         self.set_image(list_paths_images)
 
     # --out
