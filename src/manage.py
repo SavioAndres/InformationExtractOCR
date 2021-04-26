@@ -14,46 +14,79 @@ class Manage:
         self.organize_directory = OrganizeDirectory()
         self.process_image = ProcessImage()
 
+        self.path_input = None
+        self.path_output_text = None
+        self.path_output_image = None
+
+        self.save_image_process = True
+
+        self.value_init = 0
+
     # -lang
     def set_lang(self, arg):
         self.text_extraction.set_lang(arg)
-    
-    # --dir
-    def set_directory_images(self, directory):
-        list_paths_images, accentuation_removed, was_converted = self.organize_directory.remove_accents_directories_files(directory)
 
-        if accentuation_removed: print(colored('Acentuação do diretório e/ou imagem/ns retirada(s)', 'blue'))
-        if was_converted: print(colored('Imagem/ns convertida/s para jpg', 'blue'))
+    # --saveimage
+    def set_is_save_image_process(self, arg):
+        if arg.lower() in {'false', 'f', '0', 'no', 'n'}:
+            self.save_image_process = False
 
-        for i, image_path in enumerate(list_paths_images):
-            print(colored('######\t{}'.format(i + 1), 'blue'))
-            self.__generate_text(image_path)
+    # --init
+    def set_value_init(self, arg):
+        self.value_init = arg
 
     # --image
     def set_image(self, paths):
-        for path in paths:
-            path, accentuation_removed = self.organize_directory.remove_accents_directories(Path(path))
+        size_list = len(paths) - 1
+        for i, path in enumerate(paths[self.value_init:], start=self.value_init):
+            print(colored('Nº {0}/{1} >>>>>>\t{2}'.format(i, size_list, path), 'blue'))
+            _path_output_text = self.path_output_text
+            _path_output_image = self.path_output_image
+
+            if _path_output_text == None: _path_output_text = path + ' text'
+            if _path_output_image == None: _path_output_image = path + ' image'
+
+            path_unaccented, accentuation_removed = self.organize_directory.remove_accents_directories(Path(path))
             if accentuation_removed: print(colored('Acentuação do diretório/imagem retirada', 'blue'))
-            self.__generate_text(path)
+            
+            print(colored('Processando imagem...', 'yellow'))
+            image = self.process_image.process(path_unaccented)
+            if self.save_image_process:
+                path_out_image = self.organize_directory.generate_directory_name(path, self.path_input, _path_output_image)
+                self.process_image.create_image(image, path_out_image)
+            
+            print(colored('Extraíndo texto...', 'yellow'))
+            text = self.text_extraction.image_to_text(image)
+            path_out_text = self.organize_directory.generate_directory_name(path, self.path_input, _path_output_text)
+            self.organize_directory.write_file(text, path_out_text)
+            
+            print(colored('Finalizado com sucesso', 'green'))
+    
+    # --dir
+    def set_directory_images(self, path):
+        self.path_input = path
+        self.__create_exit_paths(path)
+
+        list_paths_images = list()
+        for path, _, name_file in os.walk(os.path.abspath(path)):
+            if os.path.basename(path) != 'arquivo':
+                for name in name_file:
+                    if name.endswith('.jpg'):
+                        list_paths_images.append(path + '/' + name)
+        self.set_image(list_paths_images)
 
     # --out
     def set_directory_out_text(self, path):
-        return None
+        self.path_output_text = path
+        if self.path_output_image == None: self.path_output_image = path
 
     # --outimage
     def set_directory_out_image(self, path):
-        return None
-    
-    # --join
-    def join_all_txt_files(self, path):
-        self.organize_directory.join_files(path)
-        print(colored('Junção de arquivos finalizado com sucesso', 'green'))
+        self.path_output_image = path
 
-    def __generate_text(self, image_path):
-        print(colored('>>>>>>\t{}'.format(image_path), 'blue'))
-        print(colored('Processando imagem...', 'yellow'))
-        image = self.process_image.process(image_path)
-        print(colored('Extraíndo texto...', 'yellow'))
-        text = self.text_extraction.image_to_text(image)
-        self.organize_directory.write_file(text, image_path)
-        print(colored('Finalizado com sucesso', 'green'))
+    # Criar caminhos de saída
+    def __create_exit_paths(self, path):
+        if self.path_output_image == None:
+            self.path_output_image = os.path.dirname(path) + '/' + os.path.basename(path) + ' image'
+        if self.path_output_text == None:
+            self.path_output_text = os.path.dirname(path) + '/' + os.path.basename(path) + ' text'

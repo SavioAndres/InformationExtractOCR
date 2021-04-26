@@ -1,4 +1,4 @@
-from src2.manage import Manage
+from src.manage import Manage
 import argparse
 import platform
 from pathlib import Path
@@ -21,10 +21,8 @@ class Arguments:
         self.parser.add_argument('-d', '--dir', help='Caminho do diretório de entrada das imagens')
         self.parser.add_argument('-o', '--out', help='Caminho do diretório de saída dos textos extraídos')
         self.parser.add_argument('-oi', '--outimage', help='Caminho do diretório de saída das imagens processadas')
-        self.parser.add_argument('-j', '--join', help='Criar um novo arquivo de texto com todos os textos \
-                                    extraídos dos arquivos de um determinado diretório')
         self.parser.add_argument('-v', '--version', help='Versão do software', action='version', 
-                                    version='%(prog)s Version 0.3 [https://github.com/SavioAndres/InformationExtractOCR]')
+                                    version='%(prog)s Version 1.0 [https://github.com/SavioAndres/InformationExtractOCR]')
 
     def check_arguments(self):
         args = self.parser.parse_args()
@@ -42,8 +40,6 @@ class Arguments:
             self.manage.set_image(args.image)
         if (args.dir):
             self.manage.set_directory_images(Path(args.dir))
-        if (args.join):
-            self.manage.join_all_txt_files(Path(args.join))
 
 if __name__ == '__main__':
     Arguments()

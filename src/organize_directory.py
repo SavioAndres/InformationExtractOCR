@@ -9,10 +9,14 @@ import re
 class OrganizeDirectory:
     
     # Escreve o arquivo TXT com o texto extraído
-    def write_file(self, text, name):
-        file_text = open('{}.txt'.format(name), 'w')
+    def write_file(self, text, directory):
+        dir_ = os.path.dirname(directory)
+        if not os.path.exists(dir_):
+            os.makedirs(dir_, exist_ok=True)
+        file_text = open('{0}.txt'.format(directory), 'w')
         file_text.write(text)
         file_text.close()
+        print('{0}.txt'.format(directory))
     
     # Passando o caminho de um diretório
     # Remove os acentos dos dos diretórios e subdiretórios até as imagens
@@ -47,16 +51,6 @@ class OrganizeDirectory:
         path_unaccented = Path(concatenated_path_unaccented[:-1])
         return path_unaccented, path != path_unaccented
 
-    # Cria um novo arquivo de texto, sendo esse a junção de todos os arquivos de textos gerados
-    def join_files(self, path):
-        paths = glob('{0}/*.txt'.format(path))
-        arq = open(path + '/resultado.txt', 'w')
-        text = ''
-        for p in paths:
-            text += open(p, 'r').read()
-        arq.write(text)
-        arq.close()
-
     # def privado para gerar lista de strings do caminho do diretório/arquivo com e sem acentos
     def __path_split_unaccented(self, path):
         unaccented_path = normalize('NFKD', str(path)).encode('ASCII', 'ignore').decode('ASCII')
@@ -82,3 +76,7 @@ class OrganizeDirectory:
             os.remove(path_img)
 
         return len(png_jpeg) != 0
+
+    def generate_directory_name(self, path_image, path_input, path_output):
+        path_image_siffix_name = os.path.relpath(path_image, path_input)
+        return str(path_output) + '/' + path_image_siffix_name
